@@ -33,3 +33,28 @@ def dfs_encode(node, code="", code_map=None):
         dfs_encode(node.right_node, code + "1", code_map)
 
     return code_map
+
+def encode_tree(node):
+    if node.char is not None:
+        return f"L:{ord(node.char)}"
+    return "N " + encode_tree(node.left_node) + " " + encode_tree(node.right_node)
+
+def decode_tree(tokens):
+    tokens_iter = iter(tokens)
+
+    def helper():
+        token = next(tokens_iter)
+
+        if token.startswith("L:"):
+            char = chr(int(token[2:]))
+            return Node(0, char)
+
+        elif token == "N":
+            left_node = helper()
+            right_node = helper()
+            return Node(0, None, left_node, right_node)
+
+        else:
+            raise ValueError(f"Invalid token: {token}")
+
+    return helper()
