@@ -1,14 +1,10 @@
 
 class Node:
-    def __init__(self, count, ascii_code = None, left_node = None, right_node = None):
+    def __init__(self, count, char = None, left_node = None, right_node = None):
         self.left_node = left_node
         self.right_node = right_node
-        self.ascii_code = ascii_code
+        self.char = char
         self.count = count
-        self.code = None
-
-    def __str__(self):
-        return f"<{self.ascii_code}> <{self.count}>"
 
 def build_tree(nodes):
     if len(nodes) == 1:
@@ -24,3 +20,16 @@ def build_tree(nodes):
 
 def sort_nodes(nodes):
     return sorted(nodes, key=lambda node: node.count)
+
+def dfs_encode(node, code="", code_map=None):
+    if code_map is None:
+        code_map = {}
+
+    if node:
+        if node.char is not None:
+             code_map[node.char] = code
+
+        dfs_encode(node.left_node, code + "0", code_map)
+        dfs_encode(node.right_node, code + "1", code_map)
+
+    return code_map
