@@ -1,10 +1,5 @@
-
-class Node:
-    def __init__(self, count, character = None, left = None, right = None):
-        self.left = left
-        self.right = right
-        self.character = character
-        self.count = count
+from node import Node
+from utils import sort_nodes
 
 def build_tree(nodes):
     if len(nodes) == 1:
@@ -17,9 +12,6 @@ def build_tree(nodes):
     new_nodes.extend(nodes)
 
     return build_tree(sort_nodes(new_nodes))
-
-def sort_nodes(nodes):
-    return sorted(nodes, key=lambda node: node.count)
 
 def build_encoding_map(node, code="", encoding_map=None):
     if encoding_map is None:
@@ -57,3 +49,27 @@ def deserialize_tree(tokens):
 
 
     return helper()
+
+def encode_text_to_bits(text, encoding_map):
+    encoded_text = ""
+
+    for character in text:
+        encoded_text += encoding_map[character]
+
+    return encoded_text
+
+def decode_bits_to_text(encoded_bits, root):
+    decoded_text = ""
+    node = root
+
+    for character in encoded_bits:
+        if character == "0":
+            node = node.left
+        else:
+            node = node.right
+
+        if node.character is not None:
+            decoded_text += node.character
+            node = root
+
+    return decoded_text
