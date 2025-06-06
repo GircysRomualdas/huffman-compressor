@@ -48,12 +48,10 @@ def decode_tree(tokens):
         if token.startswith("L:"):
             char = chr(int(token[2:]))
             return Node(0, char)
-
         elif token == "N":
             left_node = helper()
             right_node = helper()
             return Node(0, None, left_node, right_node)
-
         else:
             raise ValueError(f"Invalid token: {token}")
 

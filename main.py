@@ -41,7 +41,7 @@ def decode_text(encoded_text, root_node):
 
     return decode_text
 
-def read_data(path):
+def read_text_data(path):
     content = ""
 
     with open(path, "r") as file:
@@ -49,13 +49,41 @@ def read_data(path):
 
     return content
 
-def write_data(path, text):
-    with open(path, "w") as file:
-        file.write(text)
+def write_binary_data(encoded_tree, encoded_text, path):
+    tree_bytes = encoded_tree.encode("utf-8")
+    tree_len = len(tree_bytes)
+
+    bit_len = len(encoded_text)
+    num_bytes = (bit_len + 7) // 8
+    data_int = int(encoded_text, 2)
+    data_bytes = data_int.to_bytes(num_bytes, byteorder="big")
+
+    with open(path + ".bin", "wb") as f:
+        f.write(tree_len.to_bytes(4, byteorder="big"))
+        f.write(tree_bytes)
+
+        f.write(bit_len.to_bytes(4, byteorder="big"))
+        f.write(data_bytes)
+
+def read_binary_data(path):
+    with open(path + ".bin", "rb") as f:
+        tree_len_bytes = f.read(4)
+        tree_len = int.from_bytes(tree_len_bytes, byteorder="big")
+        tree_bytes = f.read(tree_len)
+        encoded_tree = tree_bytes.decode("utf-8")
+
+        bit_len_bytes = f.read(4)
+        bit_len = int.from_bytes(bit_len_bytes, byteorder="big")
+        num_bytes = (bit_len + 7) // 8
+        data_bytes = f.read(num_bytes)
+        data_int = int.from_bytes(data_bytes, byteorder="big")
+        encoded_text = bin(data_int)[2:].rjust(bit_len, "0")
+
+    return encoded_tree, encoded_text
 
 def main():
     path = "data/Frankenstein.txt"
-    test_data = read_data(path)
+    test_data = read_text_data(path)
     nodes = count_char(test_data)
     sorted_nodes = sort_nodes(nodes)
     root_node = build_tree(sorted_nodes)
@@ -63,19 +91,17 @@ def main():
 
     encoded_text = encode_test(test_data, code_map)
     encoded_tree = encode_tree(root_node)
-    full_text = f"{encoded_tree}\n{encoded_text}"
     new_path = f"{path}.huff"
-    write_data(new_path, full_text)
 
-    full_encoded_text = read_data(new_path).split("\n")
-    encoded_tree = full_encoded_text[0]
-    encoded_text = full_encoded_text[1]
+    write_binary_data(encoded_tree, encoded_text, new_path)
+    bin_encoded_tree, bin_encoded_text = read_binary_data(new_path)
 
-    root = decode_tree(encoded_tree.strip().split())
-    decoded_text = decode_text(encoded_text, root)
+    bin_root_node = decode_tree(encoded_tree.strip().split())
+    bin_decoded_text = decode_text(encoded_text, bin_root_node)
 
-    print(decoded_text)
-
+    print(bin_decoded_text)
+    print(f"bin_encoded_tree: {bin_encoded_tree == encoded_tree}")
+    print(f"bin_encoded_text: {bin_encoded_text == encoded_text}")
 
 if __name__ == "__main__":
     main()
