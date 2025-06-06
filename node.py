@@ -1,9 +1,9 @@
 
 class Node:
-    def __init__(self, count, char = None, left_node = None, right_node = None):
-        self.left_node = left_node
-        self.right_node = right_node
-        self.char = char
+    def __init__(self, count, character = None, left = None, right = None):
+        self.left = left
+        self.right = right
+        self.character = character
         self.count = count
 
 def build_tree(nodes):
@@ -21,38 +21,39 @@ def build_tree(nodes):
 def sort_nodes(nodes):
     return sorted(nodes, key=lambda node: node.count)
 
-def dfs_encode(node, code="", code_map=None):
-    if code_map is None:
-        code_map = {}
+def build_encoding_map(node, code="", encoding_map=None):
+    if encoding_map is None:
+        encoding_map = {}
 
     if node:
-        if node.char is not None:
-             code_map[node.char] = code
+        if node.character is not None:
+             encoding_map[node.character] = code
 
-        dfs_encode(node.left_node, code + "0", code_map)
-        dfs_encode(node.right_node, code + "1", code_map)
+        build_encoding_map(node.left, code + "0", encoding_map)
+        build_encoding_map(node.right, code + "1", encoding_map)
 
-    return code_map
+    return encoding_map
 
-def encode_tree(node):
-    if node.char is not None:
-        return f"L:{ord(node.char)}"
-    return "N " + encode_tree(node.left_node) + " " + encode_tree(node.right_node)
+def serialize_tree(node):
+    if node.character is not None:
+        return f"L:{ord(node.character)}"
+    return "N " + serialize_tree(node.left) + " " + serialize_tree(node.right)
 
-def decode_tree(tokens):
+def deserialize_tree(tokens):
     tokens_iter = iter(tokens)
 
     def helper():
         token = next(tokens_iter)
 
         if token.startswith("L:"):
-            char = chr(int(token[2:]))
-            return Node(0, char)
+            character = chr(int(token[2:]))
+            return Node(0, character)
         elif token == "N":
             left_node = helper()
             right_node = helper()
             return Node(0, None, left_node, right_node)
         else:
-            raise ValueError(f"Invalid token: {token}")
+            raise ValueError(f"Error while decoding tree: invalid token '{token}'. The file may be corrupted or not a valid Huffman binary.")
+
 
     return helper()
