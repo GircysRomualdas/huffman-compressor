@@ -1,5 +1,5 @@
-from node import Node
-from utils import sort_nodes
+from .node import Node
+from .utils import sort_nodes
 
 def build_tree(nodes):
     if len(nodes) == 1:

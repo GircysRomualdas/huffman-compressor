@@ -1,4 +1,4 @@
-from node import Node
+from .node import Node
 
 def get_character_frequencies(text):
     nodes = []

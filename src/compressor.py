@@ -1,10 +1,10 @@
-from file_io import (
+from .file_io import (
     read_text_file,
     write_text_file,
     write_compressed_file,
     read_compressed_file
 )
-from encoding import (
+from .encoding import (
     build_tree,
     build_encoding_map,
     serialize_tree,
@@ -12,7 +12,7 @@ from encoding import (
     encode_text_to_bits,
     decode_bits_to_text
 )
-from utils import get_character_frequencies, sort_nodes
+from .utils import get_character_frequencies, sort_nodes
 
 def compress_file(path):
     text_data = read_text_file(path)
