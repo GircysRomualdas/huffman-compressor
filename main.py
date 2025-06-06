@@ -1,6 +1,4 @@
-from node import Node, build_tree, sort_nodes, dfs_encode
-
-from temp import *
+from node import Node, build_tree, sort_nodes, dfs_encode, encode_tree, decode_tree
 
 def count_char(data_str):
     nodes = []
@@ -43,17 +41,39 @@ def decode_text(encoded_text, root_node):
 
     return decode_text
 
+def read_data(path):
+    content = ""
+
+    with open(path, "r") as file:
+        content = file.read()
+
+    return content
+
+def write_data(path, text):
+    with open(path, "w") as file:
+        file.write(text)
+
 def main():
+    path = "data/Frankenstein.txt"
+    test_data = read_data(path)
     nodes = count_char(test_data)
     sorted_nodes = sort_nodes(nodes)
     root_node = build_tree(sorted_nodes)
     code_map = dfs_encode(root_node)
 
     encoded_text = encode_test(test_data, code_map)
-    decoded_text = decode_text(encoded_text, root_node)
+    encoded_tree = encode_tree(root_node)
+    full_text = f"{encoded_tree}\n{encoded_text}"
+    new_path = f"{path}.huff"
+    write_data(new_path, full_text)
 
-    print(encoded_text)
-    print("-------------------------")
+    full_encoded_text = read_data(new_path).split("\n")
+    encoded_tree = full_encoded_text[0]
+    encoded_text = full_encoded_text[1]
+
+    root = decode_tree(encoded_tree.strip().split())
+    decoded_text = decode_text(encoded_text, root)
+
     print(decoded_text)
 
 
