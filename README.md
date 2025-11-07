@@ -43,7 +43,7 @@ python3 main.py compress temp/Frankenstein.txt
 ```bash
 [✓] Compression successful!
     Original file:     temp/Frankenstein.txt
-    Compressed file:   temp/Frankenstein.txt.huff
+    Compressed file:   temp/Frankenstein.txt.huff.bin
     Original size:     430493 bytes
     Compressed size:   239690 bytes
     Compression ratio: 55.68%

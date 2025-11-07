@@ -1,4 +1,3 @@
-
 def read_text_file(path):
     content = ""
 
@@ -7,9 +6,11 @@ def read_text_file(path):
 
     return content
 
+
 def write_text_file(path, text):
-    with open(path, 'w') as file:
+    with open(path, "w") as file:
         file.write(text)
+
 
 def write_compressed_file(tree_str, bitstring, path):
     tree_bytes = tree_str.encode("utf-8")
@@ -20,12 +21,13 @@ def write_compressed_file(tree_str, bitstring, path):
     data_int = int(bitstring, 2)
     data_bytes = data_int.to_bytes(num_bytes, byteorder="big")
 
-    with open(path + ".bin", "wb") as f:
+    with open(path, "wb") as f:
         f.write(tree_len.to_bytes(4, byteorder="big"))
         f.write(tree_bytes)
 
         f.write(bit_len.to_bytes(4, byteorder="big"))
         f.write(data_bytes)
+
 
 def read_compressed_file(path):
     with open(path, "rb") as f:
