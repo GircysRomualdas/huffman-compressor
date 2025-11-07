@@ -44,6 +44,8 @@ python3 main.py compress temp/Frankenstein.txt
     Compression ratio: 55.68%
 ```
 
+---
+
 ### Decompress a file
 ```bash
 python3 main.py decompress <path/to/input.txt.huff.bin>
