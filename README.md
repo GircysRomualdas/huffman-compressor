@@ -29,17 +29,12 @@ Huffman Coding is a lossless data compression algorithm. It assigns shorter bina
 python3 main.py compress <path/to/input.txt>
 ```
 
-### Decompress a file
-```bash
-python3 main.py decompress <path/to/input.txt.huff.bin>
-```
-
-### Example
-#### Compress a file
+#### Example
 ```bash
 python3 main.py compress temp/Frankenstein.txt
 ```
-##### Output
+
+#### Output
 ```bash
 [✓] Compression successful!
     Original file:     temp/Frankenstein.txt
@@ -49,11 +44,16 @@ python3 main.py compress temp/Frankenstein.txt
     Compression ratio: 55.68%
 ```
 
-#### Decompress a file
+### Decompress a file
+```bash
+python3 main.py decompress <path/to/input.txt.huff.bin>
+```
+
+#### Example
 ```bash
 python3 main.py decompress temp/Frankenstein.txt.huff.bin
 ```
-##### Output
+#### Output
 ```bash
 [✓] Decompression successful!
     Input file:        temp/Frankenstein.txt.huff.bin
