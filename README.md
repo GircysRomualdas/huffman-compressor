@@ -1,6 +1,6 @@
 # Huffman Compressor
 
-A command-line tool that compresses and decompresses text files using the **Huffman Coding** algorithm.
+A command-line tool that compresses and decompresses text files using the Huffman Coding algorithm.
 
 ---
 
@@ -10,18 +10,13 @@ Huffman Coding is a lossless data compression algorithm. It assigns shorter bina
 
 ---
 
-## Run the Program
-
-### Requirements
+## Requirements
 
 - Python 3
 
-### Clone the Repository
+---
 
-```bash
-git clone https://github.com/GircysRomualdas/huffman-compressor.git
-cd huffman-compressor
-```
+## Usage
 
 ### Compress a file
 ```bash
