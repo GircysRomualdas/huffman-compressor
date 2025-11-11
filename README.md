@@ -18,7 +18,7 @@ Huffman Coding is a lossless data compression algorithm. It assigns shorter bina
 
 ## Installation
 
-1. Clone the repository
+1. Clone the repository.
 
 ---
 
